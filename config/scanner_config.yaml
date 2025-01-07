@@ -1,4 +1,4 @@
-# Rate limiting
+# Rate limiting 
 requests_per_second: 5.0
 burst_size: 10
 
