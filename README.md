@@ -180,9 +180,19 @@ flake8 src/
 3. Make your changes
 4. Submit a pull request
 
+## Acknowledgments
+
+This project was developed with the assistance of AI tools:
+- Claude AI (Anthropic) - Helped with code development, debugging, and documentation
+- GitHub Copilot - Assisted with code suggestions and completion
+
+Human developers performed the final implementation, testing, and validation to ensure security and reliability.
+
+Note: While AI tools were used to accelerate development, all security testing features have been manually verified and tested.
+
 ## License
 
-MIT License - See LICENSE file for details.
+MIT License - See the LICENSE file for details.
 
 ## Disclaimer
 
