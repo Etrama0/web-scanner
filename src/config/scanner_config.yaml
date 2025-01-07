@@ -1,0 +1,26 @@
+# General settings
+threads: 10
+timeout: 10
+user_agent: 'Mozilla/5.0 (compatible; SecurityScanner/1.0)'
+verify_ssl: false
+max_crawl_depth: 3
+
+# Rate limiting
+requests_per_second: 5.0
+burst_size: 10
+
+# Module configurations
+modules:
+  reconnaissance:
+    enabled: true
+    scan_type: basic
+    ports: "80,443"
+    aggressive: false
+    service_detection: true
+
+# Authentication (if needed)
+authentication:
+  auth_type: none
+  username: ""
+  password: ""
+  login_url: "" 

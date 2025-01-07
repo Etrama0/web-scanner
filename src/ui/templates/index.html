@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Security Scanner</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --danger-color: #dc2626;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            --success-color: #16a34a;
+            --text-color: #1f2937;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            background: var(--card-bg);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .test-category {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #f8fafc 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .test-category:hover {
+            border-color: var(--primary-color);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 1rem;
+            top: -0.5rem;
+            background: var(--bg-color);
+            padding: 0 0.5rem;
+            font-size: 0.875rem;
+            color: var(--primary-color);
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-step i {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-3xl text-blue-600 mr-3"></i>
+                    <span class="font-bold text-xl">Enterprise Security Scanner</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Documentation</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Support</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Advanced Security Assessment Platform</h1>
+            <p class="text-xl text-gray-600">Enterprise-grade security scanning and vulnerability assessment</p>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Scan Configuration -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center">
+                    <i class="fas fa-cog text-blue-600 mr-3"></i>
+                    Scan Configuration
+                </h2>
+                <form id="scanForm" class="space-y-6">
+                    <div class="input-group">
+                        <label for="targetUrl">Target URL</label>
+                        <input type="url" id="targetUrl" required
+                               class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                               placeholder="https://example.com">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="scanType">Scan Type</label>
+                        <select id="scanType" required
+                                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="quick">Quick Scan</option>
+                            <option value="standard">Standard Scan</option>
+                            <option value="deep">Deep Scan</option>
+                            <option value="custom">Custom Scan</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label for="threads">Threads</label>
+                            <input type="number" id="threads" min="1" max="10" value="2"
+                                   class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="input-group">
+                            <label for="depth">Scan Depth</label>
+                            <input type="number" id="depth" min="1" max="10" value="3"
+                                   class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 
+                                   transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i>
+                        Start Scan
+                    </button>
+                </form>
+            </div>
+
+            <!-- Available Tests -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center">
+                    <i class="fas fa-shield-alt text-blue-600 mr-3"></i>
+                    Security Tests Performed
+                </h2>
+                <div class="space-y-4">
+                    <div class="test-category">
+                        <h3 class="font-semibold text-lg flex items-center">
+                            <i class="fas fa-lock text-blue-600 mr-2"></i>
+                            Authentication Tests
+                        </h3>
+                        <ul class="text-gray-600 ml-8 mt-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                CSRF Protection Analysis
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Session Management Verification
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Password Policy Assessment
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Authentication Bypass Testing
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="test-category">
+                        <h3 class="font-semibold text-lg flex items-center">
+                            <i class="fas fa-code text-blue-600 mr-2"></i>
+                            Injection Tests
+                        </h3>
+                        <ul class="text-gray-600 ml-8 mt-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                SQL Injection Detection
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Cross-site Scripting (XSS) Analysis
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Command Injection Scanning
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                XML External Entity (XXE) Testing
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="test-category">
+                        <h3 class="font-semibold text-lg flex items-center">
+                            <i class="fas fa-wrench text-blue-600 mr-2"></i>
+                            Configuration Tests
+                        </h3>
+                        <ul class="text-gray-600 ml-8 mt-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Security Headers Analysis
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                SSL/TLS Configuration Check
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Server Information Disclosure
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Error Handling Assessment
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="test-category">
+                        <h3 class="font-semibold text-lg flex items-center">
+                            <i class="fas fa-search text-blue-600 mr-2"></i>
+                            Information Disclosure Tests
+                        </h3>
+                        <ul class="text-gray-600 ml-8 mt-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Sensitive Data Exposure Check
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Directory Listing Detection
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                File Inclusion Vulnerability Scan
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                Version Information Detection
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this to the results section -->
+    <div id="results" class="bg-white p-6 rounded-lg shadow-lg hidden">
+        <!-- Scan Progress -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 flex items-center">
+                <i class="fas fa-radar text-blue-600 mr-3"></i>
+                Scan Progress
+            </h2>
+            <div id="scanProgress" class="relative pt-1">
+                <div class="flex mb-2 items-center justify-between">
+                    <div>
+                        <span id="scanStatus" class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+                            Starting scan...
+                        </span>
+                    </div>
+                    <div class="text-right">
+                        <span id="scanPercentage" class="text-xs font-semibold inline-block text-blue-600">
+                            0%
+                        </span>
+                    </div>
+                </div>
+                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-100">
+                    <div id="progressBar" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600 transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scan Statistics -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <!-- URLs Scanned -->
+            <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">URLs Scanned</p>
+                        <h3 class="text-xl font-bold text-gray-900" id="urlCount">1</h3>
+                    </div>
+                    <div class="bg-blue-100 rounded-full p-2">
+                        <i class="fas fa-link text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Tests -->
+            <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Security Tests</p>
+                        <h3 class="text-xl font-bold text-gray-900" id="testCount">16</h3>
+                    </div>
+                    <div class="bg-green-100 rounded-full p-2">
+                        <i class="fas fa-shield-alt text-green-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issues Found -->
+            <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Issues Found</p>
+                        <h3 class="text-xl font-bold text-gray-900" id="issueCount">0</h3>
+                    </div>
+                    <div class="bg-red-100 rounded-full p-2">
+                        <i class="fas fa-exclamation-triangle text-red-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Duration -->
+            <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Duration</p>
+                        <h3 class="text-xl font-bold text-gray-900" id="scanDuration">00:00</h3>
+                    </div>
+                    <div class="bg-purple-100 rounded-full p-2">
+                        <i class="fas fa-clock text-purple-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scan Data -->
+        <div id="scanData" class="space-y-4">
+            <!-- Results will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        let startTime;
+        let durationInterval;
+
+        function startScan() {
+            // Reset counters and show results section
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('urlCount').textContent = '0';
+            document.getElementById('testCount').textContent = '0';
+            document.getElementById('issueCount').textContent = '0';
+            document.getElementById('scanDuration').textContent = '00:00';
+            document.getElementById('scanData').innerHTML = '';
+            
+            // Start duration timer
+            startTime = new Date();
+            if (durationInterval) clearInterval(durationInterval);
+            durationInterval = setInterval(updateDuration, 1000);
+            
+            // Reset progress
+            const progressBar = document.getElementById('progressBar');
+            const scanPercentage = document.getElementById('scanPercentage');
+            const scanStatus = document.getElementById('scanStatus');
+            
+            progressBar.style.width = '0%';
+            scanPercentage.textContent = '0%';
+            scanStatus.textContent = 'Starting scan...';
+            scanStatus.className = 'text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200';
+        }
+
+        function updateDuration() {
+            const now = new Date();
+            const duration = Math.floor((now - startTime) / 1000);
+            const minutes = Math.floor(duration / 60);
+            const seconds = duration % 60;
+            document.getElementById('scanDuration').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function stopDuration() {
+            if (durationInterval) {
+                clearInterval(durationInterval);
+            }
+        }
+
+        function updateResults(findings) {
+            if (findings) {
+                document.getElementById('issueCount').textContent = findings.length;
+            }
+        }
+
+        document.getElementById('scanForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Start scan UI updates
+            startScan();
+            startProgressAnimation();
+            
+            const data = {
+                target: document.getElementById('targetUrl').value,
+                scan_type: document.getElementById('scanType').value,
+                options: {
+                    threads: parseInt(document.getElementById('threads').value),
+                    depth: parseInt(document.getElementById('depth').value)
+                }
+            };
+
+            try {
+                const response = await fetch('/scan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                // Update UI with results
+                document.getElementById('urlCount').textContent = result.total_urls_scanned || '0';
+                document.getElementById('testCount').textContent = result.total_tests_run || '0';
+                document.getElementById('issueCount').textContent = result.findings ? result.findings.length : '0';
+                document.getElementById('scanDuration').textContent = result.scan_duration || '00:00';
+                
+                // Stop progress animation and show results
+                completeProgress();
+                showResults(result);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error);
+            }
+        });
+
+        function resetScanState() {
+            // Reset progress bar
+            const progressBar = document.getElementById('progressBar');
+            const scanPercentage = document.getElementById('scanPercentage');
+            const scanStatus = document.getElementById('scanStatus');
+            
+            progressBar.style.width = '0%';
+            scanPercentage.textContent = '0%';
+            scanStatus.textContent = 'Starting scan...';
+            scanStatus.className = 'text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200';
+        }
+
+        function startProgressAnimation() {
+            const progressBar = document.getElementById('progressBar');
+            const scanPercentage = document.getElementById('scanPercentage');
+            let progress = 0;
+            
+            // Clear any existing interval
+            if (progressBar.dataset.progressInterval) {
+                clearInterval(parseInt(progressBar.dataset.progressInterval));
+            }
+            
+            // Start new progress animation
+            const interval = setInterval(() => {
+                if (progress < 90) {  // Only animate up to 90%
+                    progress += 1;
+                    progressBar.style.width = `${progress}%`;
+                    scanPercentage.textContent = `${progress}%`;
+                    updateScanStatus(progress);
+                }
+            }, 500);  // Slower animation
+            
+            progressBar.dataset.progressInterval = interval;
+        }
+
+        function completeProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const scanPercentage = document.getElementById('scanPercentage');
+            const scanStatus = document.getElementById('scanStatus');
+            
+            // Clear the progress animation interval
+            if (progressBar.dataset.progressInterval) {
+                clearInterval(parseInt(progressBar.dataset.progressInterval));
+                delete progressBar.dataset.progressInterval;
+            }
+
+            progressBar.style.width = '100%';
+            scanPercentage.textContent = '100%';
+            scanStatus.textContent = 'Scan completed';
+            scanStatus.classList.remove('bg-blue-200', 'text-blue-600');
+            scanStatus.classList.add('bg-green-200', 'text-green-600');
+        }
+
+        function showError(error) {
+            const scanData = document.getElementById('scanData');
+            completeProgress();
+            
+            scanData.innerHTML = `
+                <div class="bg-red-50 p-6 rounded-lg border border-red-200 text-center">
+                    <p class="text-red-600 text-lg font-medium">Scan Error</p>
+                    <p class="text-gray-600 mt-2">${error.message}</p>
+                </div>
+            `;
+        }
+
+        function updateScanStatus(progress) {
+            const scanStatus = document.getElementById('scanStatus');
+            
+            if (progress < 25) {
+                scanStatus.textContent = 'Initializing scan...';
+            } else if (progress < 50) {
+                scanStatus.textContent = 'Running security tests...';
+            } else if (progress < 75) {
+                scanStatus.textContent = 'Analyzing results...';
+            } else {
+                scanStatus.textContent = 'Finalizing report...';
+            }
+        }
+
+        function showResults(result) {
+            const scanData = document.getElementById('scanData');
+            
+            // Clear previous results
+            scanData.innerHTML = '';
+            
+            // Show scan summary
+            const summaryElement = document.createElement('div');
+            summaryElement.className = 'bg-blue-50 p-6 rounded-lg border border-blue-200 mb-6';
+            summaryElement.innerHTML = `
+                <h3 class="text-lg font-semibold text-blue-800 mb-4">Scan Summary</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blue-600">${result.total_urls_scanned || 0}</div>
+                        <div class="text-sm text-gray-600">URLs Scanned</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blue-600">${result.findings ? result.findings.length : 0}</div>
+                        <div class="text-sm text-gray-600">Issues Found</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blue-600">${result.scan_duration || '00:00'}</div>
+                        <div class="text-sm text-gray-600">Duration</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blue-600">${result.total_tests_run || 0}</div>
+                        <div class="text-sm text-gray-600">Tests Performed</div>
+                    </div>
+                </div>
+            `;
+            scanData.appendChild(summaryElement);
+            
+            // Show vulnerabilities if found
+            if (result.findings && result.findings.length > 0) {
+                const vulnContainer = document.createElement('div');
+                vulnContainer.className = 'space-y-4';
+                
+                result.findings.forEach(finding => {
+                    const vulnElement = document.createElement('div');
+                    vulnElement.className = 'bg-white rounded-lg shadow p-6 mb-4 border border-gray-200';
+                    
+                    const severityClass = getSeverityClass(finding.severity);
+                    
+                    vulnElement.innerHTML = `
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-semibold">${finding.type || finding.title}</h3>
+                            <span class="px-3 py-1 rounded-full text-sm font-medium ${severityClass}">
+                                ${finding.severity}
+                            </span>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-gray-600"><strong>URL:</strong> ${finding.url}</p>
+                                <p class="text-gray-600"><strong>Description:</strong> ${finding.description}</p>
+                            </div>
+                            ${finding.evidence ? `
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-600 mb-2">Evidence</h4>
+                                <pre class="text-sm text-gray-700 whitespace-pre-wrap overflow-x-auto">${finding.evidence}</pre>
+                            </div>
+                            ` : ''}
+                            ${finding.remediation ? `
+                            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                <h4 class="font-semibold text-green-600 mb-2">Remediation</h4>
+                                <p class="text-gray-700">${finding.remediation}</p>
+                            </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    vulnContainer.appendChild(vulnElement);
+                });
+                scanData.appendChild(vulnContainer);
+            } else {
+                scanData.innerHTML += `
+                    <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200 text-center">
+                        <p class="text-yellow-600 text-lg font-medium">Scan Complete</p>
+                        <p class="text-gray-600 mt-2">No vulnerabilities were found, but this doesn't guarantee the target is secure. Consider running additional tests or manual verification.</p>
+                    </div>
+                `;
+            }
+            
+            // Stop duration timer
+            stopDuration();
+        }
+
+        function getSeverityClass(severity) {
+            const classes = {
+                critical: 'bg-red-100 text-red-800',
+                high: 'bg-red-100 text-red-800',
+                medium: 'bg-yellow-100 text-yellow-800',
+                low: 'bg-blue-100 text-blue-800',
+                info: 'bg-gray-100 text-gray-800'
+            };
+            return classes[severity.toLowerCase()] || classes.info;
+        }
+    </script>
+</body>
+</html>
