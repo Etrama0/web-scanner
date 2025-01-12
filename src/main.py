@@ -4,13 +4,13 @@ import argparse
 import logging
 from datetime import datetime
 from pathlib import Path
-from .scanner.vulnerability_scanner import VulnerabilityScanner
-from .scanner.crawler import AdvancedCrawler
-from .config.scanner_config import ScannerConfig
-from .reporting.report_generator import ReportGenerator
-from .reporting.template_manager import ReportTemplateManager
+from web_scanner.config.scanner_config import ScannerConfig
+from web_scanner.scanner.vulnerability_scanner import VulnerabilityScanner
+from web_scanner.reporting.report_generator import ReportGenerator
+from web_scanner.reporting.template_manager import ReportTemplateManager
 import asyncio
 import sys
+import yaml
 
 def setup_logging(verbose: bool, log_file: str = None):
     """Configure logging settings"""
@@ -40,18 +40,18 @@ def main():
     log_file = f"logs/scan_{datetime.now():%Y%m%d_%H%M%S}.log"
     setup_logging(args.verbose, log_file)
     
-    # Load config
-    config = ScannerConfig.from_yaml(args.config)
-    
-    # Update target URL to use HTTPS
-    target = args.target
-    if not target.startswith(('http://', 'https://')):
-        target = f"https://{target}"
-    
-    # Initialize scanner
-    scanner = VulnerabilityScanner(config)
-    
     try:
+        # Load config
+        config = ScannerConfig.from_yaml(args.config)
+        
+        # Update target URL to use HTTPS
+        target = args.target
+        if not target.startswith(('http://', 'https://')):
+            target = f"https://{target}"
+        
+        # Initialize scanner
+        scanner = VulnerabilityScanner(config)
+        
         # Run scan
         results = asyncio.run(scanner.scan(target))
         
@@ -68,9 +68,15 @@ def main():
         
         print(f"Scan completed. Report saved to: {report_path}")
         
+    except FileNotFoundError as e:
+        logging.error(f"Configuration file not found: {e}")
+        sys.exit(1)
+    except yaml.YAMLError as e:
+        logging.error(f"Invalid YAML configuration: {e}")
+        sys.exit(1)
     except Exception as e:
         logging.error(f"Scan failed: {str(e)}")
         sys.exit(1)
 
 if __name__ == "__main__":
-    main() 
+    main()

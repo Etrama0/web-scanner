@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Assessment - Technical Details</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --danger-color: #dc2626;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            --success-color: #16a34a;
+            --text-color: #1f2937;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .scan-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .scan-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scan-info-item strong {
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .vulnerability-detail {
+            background: var(--card-bg);
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .vulnerability-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .severity-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .severity-high {
+            background-color: #fee2e2;
+            color: var(--danger-color);
+        }
+
+        .severity-medium {
+            background-color: #fef3c7;
+            color: var(--warning-color);
+        }
+
+        .severity-low {
+            background-color: #e0f2fe;
+            color: var(--info-color);
+        }
+
+        .severity-info {
+            background-color: #dcfce7;
+            color: var(--success-color);
+        }
+
+        .evidence-block {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin: 1rem 0;
+            font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+        }
+
+        .evidence-block h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .evidence-block pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #334155;
+            font-size: 0.875rem;
+        }
+
+        .remediation {
+            background-color: #f0fdf4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #86efac;
+            margin-top: 1.5rem;
+        }
+
+        .remediation h4 {
+            color: var(--success-color);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .no-findings {
+            background-color: #f0fdf4;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 12px;
+            border: 1px solid #86efac;
+        }
+
+        .no-findings p {
+            color: var(--success-color);
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.875rem;
+            }
+
+            .scan-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* New styles for scan details */
+        .scan-summary {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .test-categories {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .category-card {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .category-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .test-list {
+            list-style: none;
+        }
+
+        .test-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .test-list li::before {
+            content: "✓";
+            color: var(--success-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .timing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .timing-table th,
+        .timing-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .timing-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        .timing-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-completed { background: #dcfce7; color: var(--success-color); }
+        .status-skipped { background: #fee2e2; color: var(--danger-color); }
+        .status-running { background: #fef3c7; color: var(--warning-color); }
+
+        .subsection-title {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .test-details,
+        .test-timings {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--bg-color);
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Security Assessment Report</h1>
+            <div class="scan-info">
+                <div class="scan-info-item">
+                    <strong>Target</strong>
+                    <span>{{ target }}</span>
+                </div>
+                <div class="scan-info-item">
+                    <strong>Scan Date</strong>
+                    <span>{{ timestamp }}</span>
+                </div>
+                <div class="scan-info-item">
+                    <strong>URLs Scanned</strong>
+                    <span>{{ urls_scanned }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Scan Summary -->
+        <div class="scan-summary">
+            <h2 class="section-title">Scan Summary</h2>
+            <div class="summary-grid">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_tests }}</div>
+                    <div class="stat-label">Total Tests Available</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ tests_completed }}</div>
+                    <div class="stat-label">Tests Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_findings }}</div>
+                    <div class="stat-label">Issues Found</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ scan_duration }}</div>
+                    <div class="stat-label">Total Duration</div>
+                </div>
+            </div>
+
+            <!-- Test Execution Details -->
+            <div class="test-details">
+                <h3 class="subsection-title">Test Execution Details</h3>
+                <table class="timing-table">
+                    <thead>
+                        <tr>
+                            <th>Module</th>
+                            <th>Tests Available</th>
+                            <th>Tests Run</th>
+                            <th>Duration</th>
+                            <th>Issues Found</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for module in modules %}
+                        <tr>
+                            <td>{{ module.name }}</td>
+                            <td>{{ module.tests_available }}</td>
+                            <td>{{ module.tests_run }}</td>
+                            <td>{{ module.duration }}</td>
+                            <td>{{ module.issues_found }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Individual Test Timings -->
+            <div class="test-timings">
+                <h3 class="subsection-title">Individual Test Timings</h3>
+                <table class="timing-table">
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Status</th>
+                            <th>Duration</th>
+                            <th>Issues Found</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for test in tests %}
+                        <tr>
+                            <td>{{ test.name }}</td>
+                            <td><span class="status-badge status-{{ test.status|lower }}">{{ test.status }}</span></td>
+                            <td>{{ test.duration }}</td>
+                            <td>{{ test.issues_found }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add Test Categories -->
+        <div class="test-categories">
+            <h2 class="section-title">Security Tests Performed</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <h3>Authentication Tests</h3>
+                    <ul class="test-list">
+                        <li>CSRF Protection Check</li>
+                        <li>Session Management</li>
+                        <li>Password Policy</li>
+                        <li>Authentication Bypass</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <h3>Injection Tests</h3>
+                    <ul class="test-list">
+                        <li>SQL Injection</li>
+                        <li>Cross-site Scripting (XSS)</li>
+                        <li>Command Injection</li>
+                        <li>XML External Entity (XXE)</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <h3>Configuration Tests</h3>
+                    <ul class="test-list">
+                        <li>Security Headers</li>
+                        <li>SSL/TLS Configuration</li>
+                        <li>Server Information Disclosure</li>
+                        <li>Error Handling</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <h3>Information Disclosure</h3>
+                    <ul class="test-list">
+                        <li>Sensitive Data Exposure</li>
+                        <li>Directory Listing</li>
+                        <li>File Inclusion</li>
+                        <li>Version Disclosure</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Findings Section -->
+        <div class="findings-section">
+            <h2 class="section-title">Detailed Findings</h2>
+            {% if findings %}
+                {% for vuln in findings %}
+                <div class="vulnerability-detail">
+                    <div class="vulnerability-header">
+                        <h3>{{ vuln.type }}</h3>
+                        <span class="severity-badge severity-{{ vuln.severity|lower }}">
+                            {{ vuln.severity }}
+                        </span>
+                    </div>
+                    
+                    <p><strong>URL:</strong> {{ vuln.url }}</p>
+                    <p><strong>Description:</strong> {{ vuln.description }}</p>
+                    
+                    {% if vuln.evidence %}
+                    <div class="evidence-block">
+                        <h4>Evidence</h4>
+                        <pre>{{ vuln.evidence }}</pre>
+                    </div>
+                    {% endif %}
+                    
+                    {% if vuln.remediation %}
+                    <div class="remediation">
+                        <h4>Remediation</h4>
+                        <p>{{ vuln.remediation }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-findings">
+                    <p>✓ No vulnerabilities were detected during this scan.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Add Methodology Section -->
+        <div class="test-categories">
+            <h2 class="section-title">Testing Methodology</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <h3>Reconnaissance</h3>
+                    <ul class="test-list">
+                        <li>Domain Information Gathering</li>
+                        <li>Service Enumeration</li>
+                        <li>Technology Stack Detection</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <h3>Vulnerability Assessment</h3>
+                    <ul class="test-list">
+                        <li>Automated Security Scanning</li>
+                        <li>Configuration Review</li>
+                        <li>Security Header Analysis</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <h3>Compliance Checks</h3>
+                    <ul class="test-list">
+                        <li>OWASP Top 10</li>
+                        <li>Security Best Practices</li>
+                        <li>Industry Standards</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
