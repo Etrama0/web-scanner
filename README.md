@@ -1,109 +1,144 @@
 # Web Security Scanner
 
-A comprehensive web application security scanner with advanced vulnerability detection capabilities and a modern web interface.
+An advanced web security assessment tool with real-time scanning capabilities and a modern web interface.
+
+## Project Structure
+```
+web-scanner/
+├── src/
+│   └── web_scanner/
+│       ├── config/          # Configuration management
+│       ├── core/           # Core functionality
+│       ├── scanner/        # Security scanning modules
+│       ├── reporting/      # Report generation
+│       └── ui/            # Web interface
+├── tests/                  # Test suites
+├── config/                # Default configurations
+├── reports/               # Generated scan reports
+└── logs/                  # Scan logs
+```
 
 ## Features
 
+### Core Functionality
+- Modular scanning architecture
+- Asynchronous scan execution
+- Real-time progress monitoring
+- HTML report generation
+- Configurable scan parameters
+
 ### Security Tests
-- **Authentication Tests**
-  - CSRF Protection Analysis
-  - Session Management Verification
-  - Password Policy Assessment
-  - Authentication Bypass Testing
+- Authentication Tests
+  - CSRF Protection
+  - Session Management
+  - Password Policy Analysis
+  - Auth Bypass Detection
 
-- **Injection Tests**
-  - SQL Injection Detection
-  - Cross-Site Scripting (XSS)
+- Web Vulnerabilities
+  - SQL Injection
+  - XSS (Cross-site Scripting)
   - Command Injection
-  - XML External Entity (XXE)
+  - Information Disclosure
 
-- **Configuration Tests**
-  - Security Headers Analysis
-  - SSL/TLS Configuration Check
-  - Server Information Disclosure
-  - Error Handling Assessment
+- Configuration Analysis
+  - Security Headers
+  - SSL/TLS Configuration
+  - Server Information Leaks
+  - Error Handling Review
 
-- **Information Disclosure Tests**
+- Information Disclosure Tests
   - Sensitive Data Exposure Check
   - Directory Listing Detection
   - File Inclusion Vulnerability Scan
   - Version Information Detection
 
-### Advanced Features
-- Modern Web Interface
-- Real-time Scan Progress
-- Detailed Vulnerability Reports
-- Configurable Scan Options
-- Multi-threaded Scanning
-- Customizable Scan Depth
-
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/websecurity-scanner.git
-cd websecurity-scanner
+git clone https://github.com/Etrama0/webs-scanner.git
+cd web-scanner
 ```
 
-2. Create and activate a virtual environment (recommended):
+2. Create a virtual environment:
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. Install dependencies:
+3. Install package in development mode:
 ```bash
-pip install -r requirements.txt
-```
-
-4. Install the package:
-```bash
-python setup.py install
+pip install -e .
 ```
 
 ## Usage
+
+### Command Line Interface
+
+The scanner can be run using the following commands:
+
+```bash
+# Using the python module
+python -m web_scanner.main --config config/scanner_config.yaml --target example.com
+
+# Using the webscan command
+webscan --url example.com --modules recon --format html --verbose
+
+# Additional webscan options
+webscan --url example.com \
+  --modules recon,auth,injection \
+  --format json \
+  --output-dir reports \
+  --verbose
+```
+
+Command line options:
+- `--url`: Target URL/domain to scan (required)
+- `--modules`: Modules to run (recon,auth,injection,config)
+- `--format`: Output format (json|html, default: html)
+- `--output-dir`: Directory for scan reports (default: "reports")
+- `--verbose`: Enable verbose logging
+- `--config`: Path to custom configuration file
 
 ### Web Interface
 
 1. Start the web server:
 ```bash
-python -m src.ui.app
+python -m web_scanner.ui.app
 ```
 
-2. Open your browser and navigate to `http://localhost:5000`
+2. Access the interface at `http://localhost:5000`
 
-3. Enter the target URL and configure scan options:
-   - Target URL: The website to scan
-   - Scan Type: Quick, Standard, Deep, or Custom
-   - Threads: Number of concurrent scans (1-10)
-   - Scan Depth: How deep to crawl (1-10)
+3. Enter target URL and configure scan options:
+   - Target URL: Website to scan
+   - Scan options:
+     - Thread count
+     - Scan depth
+     - Test categories
 
-4. Click "Start Scan" and monitor the progress
+> ⚠️ **Note:** The web interface (`python -m web_scanner.ui.app`) is currently under development and not fully functional. Please use the command line interface instead.
 
-### Command Line
+### Example Usage
 
-Basic scan:
-```bash
-webscan --target https://example.com --config src/config/scanner_config.yaml
+Using the provided example:
+```python
+from web_scanner.config.scanner_config import ScannerConfig
+from web_scanner.scanner.vulnerability_scanner import VulnerabilityScanner
+
+# Load config
+config = ScannerConfig.from_yaml('config/scanner_config.yaml')
+
+# Initialize scanner
+scanner = VulnerabilityScanner(config)
+
+# Run scan
+target = "https://example.com"
+results = scanner.scan(target)
 ```
 
-Advanced options:
-```bash
-webscan --target https://example.com --config src/config/scanner_config.yaml --verbose
-```
+### Configuration
 
-Available arguments:
-```bash
-webscan --help
-
-Options:
-  -h, --help         Show this help message and exit
-  --config CONFIG    Path to configuration file (required)
-  --target TARGET    Target URL to scan (required)
-  --verbose         Enable verbose output
-```
-
-Example configuration file (`src/config/scanner_config.yaml`):
+Default configuration (`config/scanner_config.yaml`):
 ```yaml
 scanner:
   threads: 5
@@ -111,54 +146,15 @@ scanner:
   timeout: 30
   user_agent: "WebSecurityScanner/1.0"
   verify_ssl: false
+
+logging:
+  level: INFO
+  file: logs/scan_%Y%m%d_%H%M%S.log
 ```
-
-## Configuration
-
-The scanner can be configured through:
-
-1. Web Interface:
-   - Adjust scan parameters in the UI
-   - Select different scan types
-   - Configure thread count and depth
-
-2. Configuration File (`src/config/scanner_config.yaml`):
-   - Set default values for timeouts, threads, etc.
-   - Configure custom test patterns
-   - Define scan behavior and limits
-
-Example configuration options:
-```yaml
-scanner:
-  # General settings
-  threads: 5              # Number of concurrent threads
-  depth: 3               # Maximum crawl depth
-  timeout: 30            # Request timeout in seconds
-  verify_ssl: false      # SSL verification
-  
-  # Scan settings
-  max_urls: 100          # Maximum URLs to scan
-  exclude_urls: []       # URLs to exclude
-  allowed_domains: []    # Domains to include in scan
-  
-  # Test settings
-  test_categories:       # Enable/disable test categories
-    authentication: true
-    injection: true
-    configuration: true
-    information: true
-```
-
-## Security Considerations
-
-- Always obtain proper authorization before scanning any website
-- Be cautious with aggressive scanning options
-- Respect rate limits and robots.txt
-- Use the tool responsibly and ethically
 
 ## Development
 
-1. Set up development environment:
+1. Install development dependencies:
 ```bash
 pip install -r requirements-dev.txt
 ```
@@ -168,32 +164,42 @@ pip install -r requirements-dev.txt
 pytest tests/
 ```
 
-3. Check code style:
-```bash
-flake8 src/
+3. Generate reports:
+```python
+from web_scanner.reporting.report_generator import ReportGenerator
+from web_scanner.reporting.template_manager import ReportTemplateManager
+
+template_manager = ReportTemplateManager()
+report_generator = ReportGenerator(template_manager)
+report = report_generator.generate_report(scan_results)
 ```
 
-## Contributing
+## API Endpoints
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+- `GET /` - Web interface
+- `POST /scan` - Start new scan
+  ```json
+  {
+    "url": "https://example.com",
+    "options": {
+      "threads": 5,
+      "depth": 3
+    }
+  }
+  ```
+- `GET /api/scan/<scan_id>` - Get scan status/results
 
-## Acknowledgments
+## Security Considerations
 
-This project was developed with the assistance of AI tools:
-- Claude AI (Anthropic) - Helped with code development, debugging, and documentation
-- GitHub Copilot - Assisted with code suggestions and completion
-
-Human developers performed the final implementation, testing, and validation to ensure security and reliability.
-
-Note: While AI tools were used to accelerate development, all security testing features have been manually verified and tested.
+- Obtain proper authorization before scanning
+- Respect rate limits and robots.txt
+- Use responsibly and ethically
+- Test thoroughly in isolated environments
 
 ## License
 
-MIT License - See the LICENSE file for details.
+MIT License - See LICENSE file for details.
 
 ## Disclaimer
 
-This tool is for educational and ethical testing purposes only. Users are responsible for obtaining proper authorization before scanning any systems they don't own.
+This tool is for educational and ethical testing purposes only. Always obtain proper authorization before scanning any systems.
