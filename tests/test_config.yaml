@@ -1,0 +1,11 @@
+
+scanner:
+  threads: 2
+  depth: 1
+  timeout: 5
+  verify_ssl: false
+  
+authentication:
+  auth_type: basic
+  username: test
+  password: test
