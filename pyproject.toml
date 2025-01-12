@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "web-scanner"
+version = "0.1.0"
+description = "Web Security Scanner"
+authors = [
+    { name = "Your Name" }
+]
+requires-python = ">=3.7"
+dependencies = [
+    "requests>=2.28.0",
+    "beautifulsoup4>=4.9.3",
+    "PyYAML>=5.4.1",
+    "aiohttp>=3.8.1",
+    "jinja2>=3.0.1",
+    "PyJWT>=2.6.0",
+    "paramiko>=2.8.1",
+    "python-nmap>=0.7.1",
+    "scapy>=2.5.0",
+    "flask>=2.0.0",
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.19.0",
+    "python-dotenv>=0.19.0",
+    "typing-extensions>=4.0.0"
+]
+
+[project.optional-dependencies]
+network = ["scapy>=2.5.0"]
+full = ["scapy>=2.5.0", "python-nmap>=0.7.1"]
+
+[project.scripts]
+webscan = "web_scanner.main:run_scanner"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["web_scanner"]
+
+[tool.setuptools.package-data]
+web_scanner = [
+    "reporting/templates/*.html",
+    "config/*.yaml"
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "."
+]
+addopts = "-v"
+testpaths = [
+    "tests"
+]
