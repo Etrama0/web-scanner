@@ -1,7 +1,10 @@
-from src.config.scanner_config import ScannerConfig
-from src.scanner.vulnerability_scanner import VulnerabilityScanner
-from src.reporting.template_manager import ReportTemplateManager
-from src.reporting.report_generator import ReportGenerator
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from web_scanner.config.scanner_config import ScannerConfig
+from web_scanner.scanner.vulnerability_scanner import VulnerabilityScanner
+from web_scanner.reporting.template_manager import ReportTemplateManager
+from web_scanner.reporting.report_generator import ReportGenerator
 import os
 import datetime
 
@@ -33,4 +36,4 @@ def main():
     print(f"Report saved to: {report_path}")
 
 if __name__ == "__main__":
-    main() 
+    main()
