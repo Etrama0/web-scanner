@@ -1,27 +1,20 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="websecurity-scanner",
+    name="web_scanner",
     version="0.1.0",
     description="A web application security scanner",
-    author="Security Team",
-    packages=find_packages(),
+    author="Harshwardhan Patil",
+    author_email="harshwardhanp49@gmail.com",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     install_requires=[
-        line.strip()
-        for line in open("requirements.txt").readlines()
+        "flask",
+        # ... other dependencies
     ],
     entry_points={
         'console_scripts': [
-            'webscan=src.main:main',
+            'web-scanner=web_scanner.ui.app:main',
         ],
-    },
-    python_requires=">=3.7",
-    include_package_data=True,
-    package_data={
-        'src': [
-            'config/*.yaml',
-            'templates/*.html',
-            'templates/*.css',
-        ],
-    },
-) 
+    }
+)
