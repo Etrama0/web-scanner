@@ -1,6 +1,6 @@
 import unittest
-from src.config.scanner_config import ScannerConfig
-from src.scanner.vulnerability_scanner import VulnerabilityScanner
+from web_scanner.config.scanner_config import ScannerConfig
+from web_scanner.scanner.vulnerability_scanner import VulnerabilityScanner
 
 class TestScanner(unittest.TestCase):
     def setUp(self):
