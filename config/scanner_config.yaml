@@ -32,4 +32,4 @@ report_templates:
   technical_details: technical_details.html
   output_format: html  # html, pdf
   include_charts: true
-  custom_logo: path/to/logo.png 
+  custom_logo: path/to/logo.png
