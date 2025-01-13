@@ -100,6 +100,10 @@ Command line options:
 - `--verbose`: Enable verbose logging
 - `--config`: Path to custom configuration file
 
+[![TTutorial video.](https://img.youtube.com/vi/HDwWg5X10Gk/0.jpg)](https://www.youtube.com/watch?v=HDwWg5X10Gk)
+
+Watch this silent tutorial to create detailed security assessment reports using the GitHub Web-Scanner project. Follow step-by-step as we navigate the scanning process and review the resulting HTML reports.
+
 ### Web Interface
 
 1. Start the web server:
