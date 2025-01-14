@@ -206,10 +206,14 @@ MIT License - See LICENSE file for details.
 
 ## Disclaimer
 
-This tool is for educational and ethical testing purposes only. Always obtain proper authorization before scanning any systems.
+Web Security Scanner is a cybersecurity tool designed to perform security assessments on specified targets. While it aims to identify vulnerabilities and enhance security, it may inadvertently cause malfunctions, crashes, or potential data loss on the target system.
+
+Using Web Security Scanner to attack or assess a target without the explicit consent of its owner is illegal. It is the sole responsibility of the end user to comply with all applicable local laws and regulations.
+
+The developer assumes no liability and is not responsible for any misuse, damage, or unintended consequences arising from the use of this program.
 
 ## Acknowledgment
 
-This project, Web Security Scanner, was developed with the help of AI-assisted tools. AI was utilized for code generation, optimization, and documentation enhancements to streamline the development process. The integration of AI support has been instrumental in accelerating the project's completion and ensuring high-quality outputs.
+This project, Web Security Scanner, was developed using AI-assisted tools. AI was utilized for code generation, optimization, and documentation enhancements to streamline the development process. The integration of AI support has been instrumental in accelerating the project's completion and ensuring high-quality outputs.
 
 I appreciate the role of AI in enhancing productivity and welcome any feedback or suggestions for improvement.
