@@ -207,3 +207,9 @@ MIT License - See LICENSE file for details.
 ## Disclaimer
 
 This tool is for educational and ethical testing purposes only. Always obtain proper authorization before scanning any systems.
+
+## Acknowledgment
+
+This project, Web Security Scanner, was developed with the help of AI-assisted tools. AI was utilized for code generation, optimization, and documentation enhancements to streamline the development process. The integration of AI support has been instrumental in accelerating the project's completion and ensuring high-quality outputs.
+
+I appreciate the role of AI in enhancing productivity and welcome any feedback or suggestions for improvement.
