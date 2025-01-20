@@ -85,8 +85,8 @@ def run_scanner():
     
     # Output options
     parser.add_argument('--output', help='Output file for the report')
-    parser.add_argument('--format', choices=['json', 'html'], default='json',
-                       help='Output format (default: json)')
+    parser.add_argument('--format', choices=['json', 'html'], default='html',
+                       help='Output format (default: html)')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose output')
     
     args = parser.parse_args()
