@@ -75,30 +75,69 @@ pip install -e .
 
 ### Command Line Interface
 
-The scanner can be run using the following commands:
-
+#### Basic Usage
+Run quick scans with minimal configuration:
 ```bash
-# Using the python module
-python -m web_scanner.main --config config/scanner_config.yaml --target example.com
+webscan --url example.com
+```
 
-# Using the webscan command
-webscan --url example.com --modules recon --format html --verbose
-
-# Additional webscan options
+#### Advanced Usage
+Execute comprehensive scans with multiple modules:
+```bash
 webscan --url example.com \
-  --modules recon,auth,injection \
-  --format json \
-  --output-dir reports \
+  --modules recon,exploit,brute \
+  --output-dir ./reports \
   --verbose
 ```
 
+#### Scan Report Formats
+
+The scanner generates comprehensive security assessment reports in the following formats:
+
+- **HTML** (default): Interactive report with detailed findings and remediation steps
+- **JSON**: Machine-readable format for integration with other security tools
+
+To specify the report format when running a scan:
+
+```bash
+# For HTML format.
+webscan --url example.com
+
+# For json format.
+webscan --url example.com --format json
+```
+
+
+#### Module-Based Scanning
+```bash
+# Reconnaissance only
+webscan --url example.com --modules recon
+
+# Full security audit
+webscan --url example.com --modules recon brute exploit
+```
+
+#### Using Custom Configurations
+```bash
+python -m web_scanner.main \
+  --config config/scanner_config.yaml \
+  --target example.com
+```
+
+#### Available Options
+Required:
+```bash
+--url: Target URL/domain (e.g., example.com)
+```
 Command line options:
-- `--url`: Target URL/domain to scan (required)
-- `--modules`: Modules to run (recon,auth,injection,config)
-- `--format`: Output format (json|html, default: html)
-- `--output-dir`: Directory for scan reports (default: "reports")
-- `--verbose`: Enable verbose logging
-- `--config`: Path to custom configuration file
+```bash
+--url: Target URL/domain to scan (required)
+--modules: Modules to run (recon,auth,injection,config)
+--format: Output format (json|html, default: html)
+--output-dir: Directory for scan reports (default: "reports")
+--verbose: Enable verbose logging
+--config: Path to custom configuration file
+```
 
 [![TTutorial video.](https://img.youtube.com/vi/HDwWg5X10Gk/0.jpg)](https://www.youtube.com/watch?v=HDwWg5X10Gk)
 
@@ -160,7 +199,7 @@ logging:
 
 1. Install development dependencies:
 ```bash
-pip install -r requirements-dev.txt
+pip install -r requirements.txt
 ```
 
 2. Run tests:
@@ -202,13 +241,13 @@ report = report_generator.generate_report(scan_results)
 
 ## License
 
-MIT License - See LICENSE file for details.
+MIT License - See the LICENSE file for details.
 
 ## Disclaimer
 
 Web Security Scanner is a cybersecurity tool designed to perform security assessments on specified targets. While it aims to identify vulnerabilities and enhance security, it may inadvertently cause malfunctions, crashes, or potential data loss on the target system.
 
-Using Web Security Scanner to attack or assess a target without the explicit consent of its owner is illegal. It is the sole responsibility of the end user to comply with all applicable local laws and regulations.
+Using a Web Security Scanner to attack or assess a target without the explicit consent of its owner is illegal. It is the end user's sole responsibility to comply with all applicable local laws and regulations.
 
 The developer assumes no liability and is not responsible for any misuse, damage, or unintended consequences arising from the use of this program.
 
