@@ -82,6 +82,13 @@ class ScannerConfig:
             if hasattr(cls, k)
         })
 
+    @classmethod 
+    def from_yaml(cls, path: str) -> 'ScannerConfig':
+        """Load configuration from YAML file"""
+        with open(path) as f:
+            data = yaml.safe_load(f)
+        return cls.from_dict(data)
+
 class AuthenticationConfig:
     def __init__(
         self,
