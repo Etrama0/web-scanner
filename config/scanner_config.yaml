@@ -1,3 +1,11 @@
+# Scanner Settings
+threads: 10
+depth: 3
+timeout: 30
+verify_ssl: false
+user_agent: 'WebSecurityScanner/1.0'
+target_url: ""
+
 # Rate limiting 
 requests_per_second: 5.0
 burst_size: 10
@@ -25,6 +33,45 @@ authentication:
   token_url: https://example.com/oauth/token
   client_id: client_123
   client_secret: secret_456
+
+# Security Test Settings
+min_confidence_score: 0.7
+max_false_positives: 5
+result_deduplication: true
+max_urls_per_domain: 100
+max_test_duration: 300
+skip_similar_endpoints: true
+
+# Test Weights
+test_weights:
+  critical: 1.0
+  high: 0.8
+  medium: 0.6
+  low: 0.4
+  info: 0.2
+
+# Module Configuration
+modules:
+  brute_force:
+    enabled: false
+    target_type: ssh
+    target_host: ""
+    username: ""
+    password_list: []
+    port: 22
+    timeout: 3
+    max_attempts: 100
+    requests_per_second: 1.0
+
+  reconnaissance:
+    enabled: true 
+    port_scan: true
+    service_detection: true
+
+  exploit:
+    enabled: false
+    exploit_type: rce
+    payload: "echo test"
 
 # Report Templates
 report_templates:
