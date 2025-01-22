@@ -15,14 +15,21 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "flask>=2.0.0",
-        "aiohttp>=3.8.0",
-        "reportlab>=3.6.0",
-        "beautifulsoup4>=4.9.0",
-        "pyyaml>=5.4.0",
+        "aiohttp>=3.8.1",
+        "reportlab>=3.6.8",
+        "beautifulsoup4>=4.9.3",
+        "pyyaml>=5.4.1",
         "python-dotenv>=0.19.0",
-        "scapy>=2.4.0",
-        "requests>=2.26.0",
-        "jinja2>=3.0.0",
+        "scapy>=2.5.0",
+        "requests>=2.28.0",
+        "jinja2>=3.0.1",
+        "validators>=0.20.0",
+        "paramiko>=2.8.1",
+        "PyJWT>=2.6.0",
+        "python-nmap>=0.7.1",
+        "matplotlib>=3.4.3",
+        "structlog>=23.1.0",
+        "typing-extensions>=4.0.0",
     ],
     extras_require={
         'dev': [
@@ -34,7 +41,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'webscan=web_scanner.main:main',
+            'webscan=web_scanner.main:run_scanner',
         ],
     },
     classifiers=[
