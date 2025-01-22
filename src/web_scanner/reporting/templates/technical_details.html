@@ -230,37 +230,35 @@
         .category-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            gap: 2rem;  /* Increased from 1.5rem */
+            margin-top: 2rem;  /* Increased from 1.5rem */
         }
 
         .category-card {
             background: var(--bg-color);
-            padding: 1.5rem;
+            padding: 1.75rem;  /* Increased from 1.5rem */
             border-radius: 8px;
             border: 1px solid #e5e7eb;
         }
 
-        .category-card h3 {
+        .category-card h4 {
             color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
+            margin-bottom: 1.5rem;  /* Increased from 1rem */
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.75rem;  /* Increased from 0.5rem */
         }
 
         .test-list {
             list-style: none;
+            padding: 0.5rem;  /* Added padding */
         }
 
         .test-list li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.875rem;  /* Increased from 0.5rem */
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-        }
-
-        .test-list li::before {
-            content: "✓";
-            color: var(--success-color);
+            gap: 0.75rem;  /* Increased from 0.5rem */
         }
 
         .section-title {
@@ -324,11 +322,178 @@
             border-radius: 8px;
             border: 1px solid #e5e7eb;
         }
+
+        /* New confidence score styles */
+        .confidence-score {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-color);
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        /* Module results styles */
+        .module-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--bg-color);
+            border-radius: 6px;
+        }
+
+        .module-findings {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Duplicate warning styles */
+        .duplicate-warning {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #fff7ed;
+            color: #c2410c;
+            border: 1px solid #fed7aa;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        /* Enhanced timing table styles */
+        .test-performance {
+            margin-top: 2rem;
+        }
+
+        .timing-table td .weight {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .timing-table td .duration {
+            font-family: ui-monospace, monospace;
+        }
+
+        .timing-table td .issues {
+            font-weight: 600;
+            color: var(--danger-color);
+        }
+
+        /* Updated module card hover effect */
+        .module-card:hover {
+            box-shadow: 0 8px 16px -4px rgb(0 0 0 / 0.1);
+            transform: translateY(-2px);
+            transition: all 0.2s ease;
+        }
+
+        /* Media query adjustments for new components */
+        @media (max-width: 768px) {
+            .module-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-performance {
+                overflow-x: auto;
+            }
+        }
+
+        /* New styles for assessment framework */
+        .assessment-framework {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .methodology-section {
+            margin-top: 2rem;
+        }
+
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .phase-card {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .phase-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .phase-list {
+            list-style: none;
+        }
+
+        .phase-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .phase-list li::before {
+            content: "→";
+            color: var(--primary-color);
+        }
+
+        /* Module findings list styles */
+        .findings-title {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .findings-list {
+            list-style: none;
+            padding-left: 0.5rem;
+        }
+
+        .findings-list li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-size: 0.875rem;
+        }
     </style>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <a href="#main-content" class="sr-only focus:not-sr-only">Skip to main content</a>
+    
+    <main id="main-content" class="container">
+        <div class="header" role="banner">
             <h1>Security Assessment Report</h1>
             <div class="scan-info">
                 <div class="scan-info-item">
@@ -347,7 +512,7 @@
         </div>
 
         <!-- Enhanced Scan Summary -->
-        <div class="scan-summary">
+        <div class="scan-summary" aria-label="Scan Summary">
             <h2 class="section-title">Scan Summary</h2>
             <div class="summary-grid">
                 <div class="stat-card">
@@ -366,12 +531,16 @@
                     <div class="stat-number">{{ scan_duration }}</div>
                     <div class="stat-label">Total Duration</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ confidence_score|default('N/A') }}</div>
+                    <div class="stat-label">Confidence Score</div>
+                </div>
             </div>
 
             <!-- Test Execution Details -->
             <div class="test-details">
                 <h3 class="subsection-title">Test Execution Details</h3>
-                <table class="timing-table">
+                <table class="timing-table" role="table" aria-label="Test Execution Details">
                     <thead>
                         <tr>
                             <th>Module</th>
@@ -396,6 +565,7 @@
             </div>
 
             <!-- Individual Test Timings -->
+            {% if tests %}
             <div class="test-timings">
                 <h3 class="subsection-title">Individual Test Timings</h3>
                 <table class="timing-table">
@@ -419,57 +589,134 @@
                     </tbody>
                 </table>
             </div>
+            {% endif %}
         </div>
 
-        <!-- Add Test Categories -->
-        <div class="test-categories">
-            <h2 class="section-title">Security Tests Performed</h2>
-            <div class="category-grid">
-                <div class="category-card">
-                    <h3>Authentication Tests</h3>
-                    <ul class="test-list">
-                        <li>CSRF Protection Check</li>
-                        <li>Session Management</li>
-                        <li>Password Policy</li>
-                        <li>Authentication Bypass</li>
-                    </ul>
+        <!-- Add Module Results Section -->
+        <div class="module-results">
+            <h2 class="section-title">Module Results</h2>
+            {% if modules %}
+                {% for module in modules %}
+                <div class="module-card">
+                    <h3>{{ module.name }}</h3>
+                    <div class="module-stats">
+                        <div>Tests Run: {{ module.tests_run }}/{{ module.tests_available }}</div>
+                        <div>Duration: {{ module.duration }}s</div>
+                        <div>Issues Found: {{ module.issues_found }}</div>  <!-- Changed from module.findings|length to module.issues_found -->
+                    </div>
+                    {% if module.issues_found > 0 %}  <!-- Changed condition -->
+                    <div class="module-findings">
+                        <h4 class="findings-title">Issues Detected</h4>
+                        <ul class="findings-list">
+                            {% for finding in findings %}
+                                {% if finding.module == module.name %}
+                                <li>{{ finding.type }} ({{ finding.severity }})</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
                 </div>
-                <div class="category-card">
-                    <h3>Injection Tests</h3>
-                    <ul class="test-list">
-                        <li>SQL Injection</li>
-                        <li>Cross-site Scripting (XSS)</li>
-                        <li>Command Injection</li>
-                        <li>XML External Entity (XXE)</li>
-                    </ul>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Security Assessment Framework Section -->
+        <div class="assessment-framework">
+            <h2 class="section-title">Security Assessment Framework</h2>
+            
+            <!-- Security Tests Performed -->
+            <div class="test-categories">
+                <h3 class="subsection-title">Security Tests Performed</h3>
+                <div class="category-grid">
+                    <div class="category-card">
+                        <h4>Authentication & Session</h4>
+                        <ul class="test-list">
+                            <li>CSRF Protection Check</li>
+                            <li>Session Management</li>
+                            <li>Password Policy</li>
+                            <li>Authentication Bypass</li>
+                            <li>Token Security</li>
+                        </ul>
+                    </div>
+                    <div class="category-card">
+                        <h4>Injection & Code Execution</h4>
+                        <ul class="test-list">
+                            <li>SQL Injection</li>
+                            <li>Cross-site Scripting (XSS)</li>
+                            <li>Command Injection</li>
+                            <li>XML External Entity (XXE)</li>
+                            <li>Remote Code Execution</li>
+                        </ul>
+                    </div>
+                    <div class="category-card">
+                        <h4>Configuration & Headers</h4>
+                        <ul class="test-list">
+                            <li>Security Headers Analysis</li>
+                            <li>SSL/TLS Configuration</li>
+                            <li>Server Information Disclosure</li>
+                            <li>Error Handling Assessment</li>
+                            <li>Cookie Security Check</li>
+                        </ul>
+                    </div>
+                    <div class="category-card">
+                        <h4>Information Disclosure</h4>
+                        <ul class="test-list">
+                            <li>Sensitive Data Exposure</li>
+                            <li>Directory Traversal</li>
+                            <li>File Inclusion Vulnerabilities</li>
+                            <li>Version Information Leakage</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="category-card">
-                    <h3>Configuration Tests</h3>
-                    <ul class="test-list">
-                        <li>Security Headers</li>
-                        <li>SSL/TLS Configuration</li>
-                        <li>Server Information Disclosure</li>
-                        <li>Error Handling</li>
-                    </ul>
-                </div>
-                <div class="category-card">
-                    <h3>Information Disclosure</h3>
-                    <ul class="test-list">
-                        <li>Sensitive Data Exposure</li>
-                        <li>Directory Listing</li>
-                        <li>File Inclusion</li>
-                        <li>Version Disclosure</li>
-                    </ul>
+            </div>
+
+            <!-- Testing Methodology -->
+            <div class="methodology-section">
+                <h3 class="subsection-title">Testing Methodology</h3>
+                <div class="phase-grid">
+                    <div class="phase-card">
+                        <h4>Phase 1: Reconnaissance</h4>
+                        <ul class="phase-list">
+                            <li>Domain Information Gathering</li>
+                            <li>Service Enumeration</li>
+                            <li>Technology Stack Detection</li>
+                        </ul>
+                    </div>
+                    <div class="phase-card">
+                        <h4>Phase 2: Vulnerability Assessment</h4>
+                        <ul class="phase-list">
+                            <li>Automated Security Testing</li>
+                            <li>Configuration Analysis</li>
+                            <li>Security Header Validation</li>
+                        </ul>
+                    </div>
+                    <div class="phase-card">
+                        <h4>Phase 3: Exploit Testing</h4>
+                        <ul class="phase-list">
+                            <li>Authentication Testing</li>
+                            <li>Injection Testing</li>
+                            <li>Security Control Bypass</li>
+                        </ul>
+                    </div>
+                    <div class="phase-card">
+                        <h4>Phase 4: Compliance</h4>
+                        <ul class="phase-list">
+                            <li>OWASP Top 10</li>
+                            <li>Security Best Practices</li>
+                            <li>Industry Standards</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Findings Section -->
-        <div class="findings-section">
+        <div class="findings-section" role="region" aria-label="Security Findings">
             <h2 class="section-title">Detailed Findings</h2>
             {% if findings %}
                 {% for vuln in findings %}
-                <div class="vulnerability-detail">
+                <div class="vulnerability-detail" role="article">
                     <div class="vulnerability-header">
                         <h3>{{ vuln.type }}</h3>
                         <span class="severity-badge severity-{{ vuln.severity|lower }}">
@@ -479,6 +726,18 @@
                     
                     <p><strong>URL:</strong> {{ vuln.url }}</p>
                     <p><strong>Description:</strong> {{ vuln.description }}</p>
+                    
+                    <!-- Add confidence score -->
+                    <div class="confidence-score">
+                        Confidence: {{ vuln.confidence_score|default('N/A') }}
+                    </div>
+                    
+                    <!-- Add deduplication info -->
+                    {% if vuln.is_duplicate %}
+                    <div class="duplicate-warning">
+                        Similar finding detected elsewhere
+                    </div>
+                    {% endif %}
                     
                     {% if vuln.evidence %}
                     <div class="evidence-block">
@@ -502,36 +761,34 @@
             {% endif %}
         </div>
 
-        <!-- Add Methodology Section -->
-        <div class="test-categories">
-            <h2 class="section-title">Testing Methodology</h2>
-            <div class="category-grid">
-                <div class="category-card">
-                    <h3>Reconnaissance</h3>
-                    <ul class="test-list">
-                        <li>Domain Information Gathering</li>
-                        <li>Service Enumeration</li>
-                        <li>Technology Stack Detection</li>
-                    </ul>
-                </div>
-                <div class="category-card">
-                    <h3>Vulnerability Assessment</h3>
-                    <ul class="test-list">
-                        <li>Automated Security Scanning</li>
-                        <li>Configuration Review</li>
-                        <li>Security Header Analysis</li>
-                    </ul>
-                </div>
-                <div class="category-card">
-                    <h3>Compliance Checks</h3>
-                    <ul class="test-list">
-                        <li>OWASP Top 10</li>
-                        <li>Security Best Practices</li>
-                        <li>Industry Standards</li>
-                    </ul>
-                </div>
-            </div>
+        <!-- Add Test Timings Section -->
+        <div class="test-timings">
+            <h2 class="section-title">Test Performance</h2>
+            <table class="timing-table">
+                <thead>
+                    <tr>
+                        <th>Test Category</th>
+                        <th>Weight</th>
+                        <th>Issues</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category, weight in test_weights.items() %}
+                    {% set category_findings = [] %}
+                    {% for finding in findings %}
+                        {% if finding.severity|lower == category|lower %}
+                            {% set _ = category_findings.append(finding) %}
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td>{{ category|title }}</td>
+                        <td>{{ weight }}</td>
+                        <td>{{ category_findings|length }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </div>
+    </main>
 </body>
 </html>
