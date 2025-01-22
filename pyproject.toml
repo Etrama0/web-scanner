@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "web-scanner"
-version = "0.1.0"
+version = "1.0"
 description = "Web Security Scanner"
 authors = [
     { name = "Your Name" }
@@ -24,7 +24,10 @@ dependencies = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.19.0",
     "python-dotenv>=0.19.0",
-    "typing-extensions>=4.0.0"
+    "typing-extensions>=4.0.0",
+    "structlog>=23.1.0",
+    "validators>=0.20.0",
+    "reportlab>=3.6.8"
 ]
 
 [project.optional-dependencies]
