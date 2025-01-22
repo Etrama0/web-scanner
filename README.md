@@ -1,56 +1,110 @@
 # Web Security Scanner
 
-An advanced web security assessment tool with real-time scanning capabilities and a modern web interface.
+An advanced web security assessment tool with real-time scanning capabilities, comprehensive vulnerability detection, and a modern web interface.
 
 ## Project Structure
 ```
+## Project Structure
+```bash
 web-scanner/
 ├── src/
+│   ├── examples/                   # Example scanner usage
 │   └── web_scanner/
-│       ├── config/          # Configuration management
-│       ├── core/           # Core functionality
-│       ├── scanner/        # Security scanning modules
-│       ├── reporting/      # Report generation
-│       └── ui/            # Web interface
-├── tests/                  # Test suites
-├── config/                # Default configurations
-├── reports/               # Generated scan reports
-└── logs/                  # Scan logs
+│       ├── config/                 # Configuration management
+│       ├── core/                   # Core functionality
+│       ├── scanner/                # Security scanning modules
+│       ├── reporting/              # Report generation
+│       ├── ui/                     # Web interface
+│       ├── types.py                # Type definitions
+│       ├── crawler.py              # Web crawler functionality
+│       └── main.py                 # CLI entry point
+├── tests/                          # Test suites
+├── .env.example                    # Environment variables template
+├── config/                         # Default configurations
+├── pyproject.toml
+├── requirements.txt
+└── setup.py
 ```
 
-## Features
+## Core Features
 
-### Core Functionality
-- Modular scanning architecture
-- Asynchronous scan execution
-- Real-time progress monitoring
-- HTML report generation
-- Configurable scan parameters
+### Scanner Architecture
+- Modular design with specialized components for different security tests
+- Asynchronous scanning engine for improved performance
+- Real-time progress monitoring and reporting
+- Configurable scan parameters and modules
+- Rate limiting and proxy support
+- Session management and authentication handling
 
-### Security Tests
-- Authentication Tests
-  - CSRF Protection
-  - Session Management
-  - Password Policy Analysis
-  - Auth Bypass Detection
+### Security Testing Modules
 
-- Web Vulnerabilities
-  - SQL Injection
-  - XSS (Cross-site Scripting)
-  - Command Injection
-  - Information Disclosure
+#### 1. Reconnaissance Module
+- Port scanning and service detection
+- Subdomain enumeration 
+- Technology stack fingerprinting
+- Server information gathering
+- Banner grabbing
+- Service version detection
 
-- Configuration Analysis
-  - Security Headers
-  - SSL/TLS Configuration
-  - Server Information Leaks
-  - Error Handling Review
+#### 2. Authentication Tests
+- CSRF token validation
+- Session management analysis
+- Password policy assessment 
+- Authentication bypass detection
+- Token security verification
+- Session timeout checks
 
-- Information Disclosure Tests
-  - Sensitive Data Exposure Check
-  - Directory Listing Detection
-  - File Inclusion Vulnerability Scan
-  - Version Information Detection
+#### 3. Vulnerability Scanning
+- SQL Injection patterns detection
+- Cross-site Scripting (XSS) analysis
+- Command injection testing
+- XML External Entity (XXE) checks
+- Local/Remote File Inclusion tests
+- Deserialization vulnerability checks
+
+#### 4. Configuration Analysis
+- Security header validation
+  - Content-Security-Policy
+  - X-Frame-Options
+  - X-Content-Type-Options
+  - Strict-Transport-Security
+  - X-XSS-Protection
+  - Referrer-Policy
+  - Permissions-Policy
+- SSL/TLS configuration assessment
+- Server information disclosure checks
+- Error handling analysis
+- Directory listing detection
+
+#### 5. Information Disclosure
+- Sensitive data exposure detection
+  - Email addresses
+  - Phone numbers
+  - API keys
+  - Credentials
+  - Credit card numbers
+- Directory traversal testing
+- Version information leakage
+- Error message analysis
+
+### Advanced Features
+
+#### Scan Configuration
+- Customizable scan depth and thread count
+- Configurable request rates and timeouts
+- Proxy support with rotation
+- Custom user agent strings
+- Path exclusion rules
+- Authentication configuration
+
+#### Result Analysis
+- Confidence scoring system
+- False positive reduction
+- Result deduplication
+- Finding validation
+- Severity classification
+- Evidence collection
+- Remediation guidance
 
 ## Installation
 
@@ -90,23 +144,64 @@ webscan --url example.com \
   --verbose
 ```
 
-#### Scan Report Formats
+#### Multiple report formats reporting:
 
 The scanner generates comprehensive security assessment reports in the following formats:
 
 - **HTML** (default): Interactive report with detailed findings and remediation steps
 - **JSON**: Machine-readable format for integration with other security tools
+- **PDF**: Portable document format suitable for sharing and printing
 
 To specify the report format when running a scan:
 
 ```bash
-# For HTML format.
+# For HTML format (default)
 webscan --url example.com
 
-# For json format.
+# For JSON format
 webscan --url example.com --format json
+
+# For PDF format
+webscan --url example.com --format pdf
 ```
 
+HTML Reports
+- Interactive web interface
+- Detailed finding descriptions
+- Evidence snippets
+- Remediation guidance
+- Severity indicators
+- Test execution details
+- Scan statistics
+
+JSON Reports
+- Machine-readable format
+- Integration-friendly structure
+- Complete scan metadata
+- Raw finding data
+- Test execution metrics
+
+PDF Reports
+- Professional formatting
+- Executive summary
+- Technical details
+- Finding categorization
+- Evidence documentation
+- Remediation steps
+
+Enhanced PDF Reports (Halfway Implemented and only requires visual optimization)
+- Professional PDF report generation with modern styling
+- Multi-page report organization:
+  - Cover page with scan details
+  - Executive summary and key findings (Page 1)
+  - Security Assessment Framework (Page 2)
+  - Detailed vulnerability findings (Subsequent pages)
+- Visual elements matching HTML reports:
+  - Card-based layout
+  - Severity badges
+  - Progress indicators
+  - Statistical summaries
+  - Professional typography and spacing
 
 #### Module-Based Scanning
 ```bash
@@ -133,7 +228,7 @@ Command line options:
 ```bash
 --url: Target URL/domain to scan (required)
 --modules: Modules to run (recon,auth,injection,config)
---format: Output format (json|html, default: html)
+--format: Output format (json|html|pdf, default: html)
 --output-dir: Directory for scan reports (default: "reports")
 --verbose: Enable verbose logging
 --config: Path to custom configuration file
@@ -144,6 +239,15 @@ Command line options:
 Watch this silent tutorial to create detailed security assessment reports using the GitHub Web-Scanner project. Follow step-by-step as we navigate the scanning process and review the resulting HTML reports.
 
 ### Web Interface
+
+The modern web UI provides:
+- Real-time scan progress monitoring
+- Interactive test configuration
+- Live result updates
+- Detailed finding reports
+- Severity-based result filtering
+- Evidence and remediation viewing
+
 
 1. Start the web server:
 ```bash
@@ -181,19 +285,47 @@ results = scanner.scan(target)
 
 ### Configuration
 
-Default configuration (`config/scanner_config.yaml`):
-```yaml
-scanner:
-  threads: 5
-  depth: 3
-  timeout: 30
-  user_agent: "WebSecurityScanner/1.0"
-  verify_ssl: false
+```bash
+# Core Settings
+threads: 10
+timeout: 30
+max_crawl_depth: 3
+verify_ssl: false
 
-logging:
-  level: INFO
-  file: logs/scan_%Y%m%d_%H%M%S.log
+# Rate Limiting
+requests_per_second: 10.0
+burst_size: 10
+
+# Scan Controls
+max_urls_per_domain: 100
+max_test_duration: 300
+skip_similar_endpoints: true
+
+# Result Processing
+min_confidence_score: 0.7
+max_false_positives: 5
+result_deduplication: true
+
+# Test Weights
+test_weights:
+  critical: 1.0
+  high: 0.8
+  medium: 0.6
+  low: 0.4
+  info: 0.2
 ```
+
+## Environment Setup
+
+1. Copy `.env.example` to `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+
+2. Update sensitive values in `.env` with real credentials.
+
+3. Never commit `.env` to version control.
+
 
 ## Development
 
