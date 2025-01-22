@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Dict, List, Union, Optional
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
+from .pdf_generator import ReportGenerator as PDFGenerator
 
 def generate_report(
     scan_results: Union[Dict, List], 
@@ -85,11 +86,26 @@ def generate_report(
         ],
         
         # Findings
-        'findings': scan_results.get('findings', [])
+        'findings': scan_results.get('findings', []),
+        
+        # Add the test weights data
+        'test_weights': {
+            'critical': 1.0,
+            'high': 0.8,
+            'medium': 0.6,
+            'low': 0.4,
+            'info': 0.2
+        },
+        'test_timings': scan_results.get('test_timings', {}),
+        'test_issues': scan_results.get('test_issues', {}),
+        'confidence_score': scan_results.get('confidence_score', 'N/A')
     }
 
     if output_format == 'json':
         return _generate_json_report(template_data, output_file)
+    elif output_format == 'pdf':
+        pdf_gen = PDFGenerator()
+        return pdf_gen.generate_report(template_data['findings'], template_data)
     else:
         return _generate_html_report(template_data, output_file, template_path)
 
