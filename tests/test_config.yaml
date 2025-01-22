@@ -1,11 +1,34 @@
-
 scanner:
   threads: 2
   depth: 1
   timeout: 5
-  verify_ssl: false
-  
+  verify_ssl: true
+  user_agent: 'TestScanner/1.0'
+  target_url: "http://testserver"
+
 authentication:
   auth_type: basic
   username: test
   password: test
+
+modules:
+  brute_force:
+    enabled: false
+    target_type: test
+    max_attempts: 3
+    requests_per_second: 0.5
+
+  reconnaissance:
+    enabled: true
+    port_scan: false
+    service_detection: false
+
+  exploit:
+    enabled: false
+
+test_weights:
+  critical: 1.0
+  high: 0.8
+  medium: 0.6
+  low: 0.4
+  info: 0.2
