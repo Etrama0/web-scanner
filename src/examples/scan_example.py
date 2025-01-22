@@ -21,8 +21,25 @@ def main():
     target = "http://example.com"
     results = scanner.scan(target)
     
-    # Generate report
-    report = report_generator.generate_report(results)
+    # Add scan validation
+    validated_results = []
+    seen_issues = set()
+    
+    for result in results:
+        # Deduplicate similar findings
+        result_hash = f"{result['type']}:{result['url']}:{result['severity']}"
+        if result_hash in seen_issues:
+            continue
+        seen_issues.add(result_hash)
+        
+        # Validate confidence score
+        if result.get('confidence_score', 0) < config.min_confidence_score:
+            continue
+            
+        validated_results.append(result)
+    
+    # Generate report with validated results
+    report = report_generator.generate_report(validated_results)
     
     # Save report
     output_dir = "reports"
@@ -32,7 +49,7 @@ def main():
     with open(report_path, 'w') as f:
         f.write(report)
         
-    print(f"Scan completed. Found {len(results)} potential vulnerabilities.")
+    print(f"Scan completed. Found {len(validated_results)} potential vulnerabilities.")
     print(f"Report saved to: {report_path}")
 
 if __name__ == "__main__":
