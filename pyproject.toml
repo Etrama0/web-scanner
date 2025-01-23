@@ -7,7 +7,7 @@ name = "web-scanner"
 version = "1.0"
 description = "Web Security Scanner"
 authors = [
-    { name = "Your Name" }
+    { name = "Harshwardhan Patil" }
 ]
 requires-python = ">=3.7"
 dependencies = [
@@ -27,7 +27,8 @@ dependencies = [
     "typing-extensions>=4.0.0",
     "structlog>=23.1.0",
     "validators>=0.20.0",
-    "reportlab>=3.6.8"
+    "reportlab>=3.6.8",
+    "setuptools>=65.0.0"
 ]
 
 [project.optional-dependencies]
