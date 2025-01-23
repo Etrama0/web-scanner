@@ -111,9 +111,10 @@ def generate_report(
 
 def _generate_json_report(report_data: Dict, output_file: Optional[str] = None) -> str:  
     """Generate JSON format report"""
-    report_content = json.dumps(report_data, indent=2)
+    report_content = json.dumps(report_data, indent=2, ensure_ascii=False)
     if output_file:
-        Path(output_file).write_text(report_content)
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(report_content)
         return output_file
     return report_content
 
@@ -142,7 +143,8 @@ def _generate_html_report(
     report_content = template.render(**report_data)
     
     if output_file:
-        Path(output_file).write_text(report_content)
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(report_content)
         return output_file
         
     return report_content
