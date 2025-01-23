@@ -30,6 +30,7 @@ setup(
         "matplotlib>=3.4.3",
         "structlog>=23.1.0",
         "typing-extensions>=4.0.0",
+        "setuptools>=65.0.0",
     ],
     extras_require={
         'dev': [
