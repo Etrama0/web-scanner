@@ -12,6 +12,10 @@ from .config.scanner_config import load_scanner_config, ScannerConfig
 from .scanner.vulnerability_scanner import VulnerabilityScanner as Scanner
 from .reporting.report_generator import generate_report
 
+def get_app_dir() -> Path:
+    """Returns the base directory for the application"""
+    return Path(__file__).parent.parent.parent
+
 def setup_logging(verbose: bool, log_file: Optional[Path] = None) -> None:
     """Configure logging settings"""
     level = logging.DEBUG if verbose else logging.INFO
@@ -111,14 +115,19 @@ def run_scanner():
         # Run scanner asynchronously
         results = asyncio.run(run_scan(config_data))
         
-        # Prepare results - removed additional wrapping since scanner now provides complete data
+        # Prepare results with absolute paths
         if results:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            reports_dir = Path('reports')
+            app_dir = get_app_dir()
+            reports_dir = app_dir / 'reports'
             reports_dir.mkdir(exist_ok=True)
             
-            output_file = args.output or reports_dir / f"scan_report_{timestamp}.{args.format}"
-            Path(output_file).parent.mkdir(parents=True, exist_ok=True)
+            if args.output:
+                output_file = Path(args.output).resolve()
+            else:
+                output_file = reports_dir / f"scan_report_{timestamp}.{args.format}"
+            
+            output_file.parent.mkdir(parents=True, exist_ok=True)
             
             # Pass results directly to report generator
             generate_report(
